@@ -20,7 +20,6 @@ public class App extends Application {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    
 
     private static Scene scene;
 
@@ -29,11 +28,10 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary.fxml"));
         Parent root = fxmlLoader.load();
         PrimaryController primaryController = (PrimaryController) fxmlLoader.getController();
-        
 
         emf = Persistence.createEntityManagerFactory("AgendaJugadoresFutbolPU");
         em = emf.createEntityManager();
-        
+        primaryController.setEntityManager(em);
 
         Scene scene = new Scene(root, 300, 250);
 
@@ -41,7 +39,6 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu Apr 23 11:08:26 CEST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0171-a64b-9f46-0000014a9850 
+Thu Apr 23 11:16:52 CEST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0171-a653-56eb-000001498748 
 on database directory C:\Users\josem\OneDrive\Documentos\NetBeansProjects\AgendaJugadoresFutbol\BDAgendaJugadores with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30dae81 
 Loaded from file:/C:/Users/josem/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
@@ -11,7 +11,7 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
-Thu Apr 23 11:09:38 CEST 2020 Thread[JavaFX Application Thread,5,main] Cleanup action starting
+Thu Apr 23 11:17:44 CEST 2020 Thread[JavaFX Application Thread,5,main] Cleanup action starting
 java.sql.SQLException: Database 'BDAgendaJugadores' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -29,7 +29,7 @@ java.sql.SQLException: Database 'BDAgendaJugadores' not found.
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:251)
-	at rg.quintana.proyectofxml.App.stop(App.java:64)
+	at rg.quintana.proyectofxml.App.stop(App.java:65)
 	at javafx.graphics/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$10(LauncherImpl.java:865)
 	at javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:455)
 	at javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:428)
@@ -63,7 +63,7 @@ ERROR XJ004: Database 'BDAgendaJugadores' not found.
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:251)
-	at rg.quintana.proyectofxml.App.stop(App.java:64)
+	at rg.quintana.proyectofxml.App.stop(App.java:65)
 	at javafx.graphics/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$10(LauncherImpl.java:865)
 	at javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:455)
 	at javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:428)
