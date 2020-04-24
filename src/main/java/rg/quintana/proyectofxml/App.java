@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+
 /**
  * JavaFX App
  */
@@ -32,13 +33,17 @@ public class App extends Application {
         emf = Persistence.createEntityManagerFactory("AgendaJugadoresFutbolPU");
         em = emf.createEntityManager();
         primaryController.setEntityManager(em);
+        
+        primaryController.cargarTodosJugadores();
 
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 420, 400);
 
         primaryStage.setTitle("proyectoFXML");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    
+        
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
@@ -53,6 +58,7 @@ public class App extends Application {
         launch();
     }
 
+    
     @Override
     public void stop() throws Exception {
         em.close();
