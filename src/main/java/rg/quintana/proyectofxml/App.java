@@ -36,7 +36,7 @@ public class App extends Application {
         
         primaryController.cargarTodosJugadores();
 
-        Scene scene = new Scene(root, 420, 400);
+        Scene scene = new Scene(root, 600, 400);
 
         primaryStage.setTitle("proyectoFXML");
         primaryStage.setScene(scene);
