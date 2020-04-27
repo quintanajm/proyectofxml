@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -30,7 +31,7 @@ public class PrimaryController implements Initializable {
     private TextField textFieldNombre;
     @FXML
     private TextField textFieldApellidos;
-    
+
     private Jugadores jugadorSeleccionado;
 
     @Override
@@ -45,8 +46,18 @@ public class PrimaryController implements Initializable {
                     }
                     return property;
                 });
-        
-        
+
+        tableViewJugadores.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    jugadorSeleccionado = newValue;
+                    if (jugadorSeleccionado != null) {
+                        textFieldNombre.setText(jugadorSeleccionado.getNombre());
+                        textFieldApellidos.setText(jugadorSeleccionado.getApellidos());
+                    } else {
+                        textFieldNombre.setText("");
+                        textFieldApellidos.setText("");
+                    }
+                });
     }
 
     public void setEntityManager(EntityManager entityManager) {
@@ -61,6 +72,22 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void onActionButtonGuardar(ActionEvent event) {
+        if (jugadorSeleccionado != null) {
+            jugadorSeleccionado.setNombre(textFieldNombre.getText());
+            jugadorSeleccionado.setApellidos(textFieldApellidos.getText());
+
+            entityManager.getTransaction().begin();
+            entityManager.merge(jugadorSeleccionado);
+            entityManager.getTransaction().commit();
+
+            int numFilaSeleccionada = tableViewJugadores.getSelectionModel().getSelectedIndex();
+            tableViewJugadores.getItems().set(numFilaSeleccionada, jugadorSeleccionado);
+            TablePosition pos = new TablePosition(tableViewJugadores, numFilaSeleccionada, null);
+            tableViewJugadores.getFocusModel().focus(pos);
+            tableViewJugadores.requestFocus();
+
+        }
+
     }
 
 }
