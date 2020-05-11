@@ -9,10 +9,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javafx.scene.layout.StackPane;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 
 /**
  * JavaFX App
@@ -26,24 +26,25 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        StackPane rootMain = new StackPane();
+                
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary.fxml"));
-        Parent root = fxmlLoader.load();
+        Parent rootPrimary = fxmlLoader.load();
+        rootMain.getChildren().add(rootPrimary);
         PrimaryController primaryController = (PrimaryController) fxmlLoader.getController();
 
         emf = Persistence.createEntityManagerFactory("AgendaJugadoresFutbolPU");
         em = emf.createEntityManager();
         primaryController.setEntityManager(em);
-        
+
         primaryController.cargarTodosJugadores();
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(rootMain, 600, 460);
 
         primaryStage.setTitle("proyectoFXML");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
-        
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
@@ -58,7 +59,6 @@ public class App extends Application {
         launch();
     }
 
-    
     @Override
     public void stop() throws Exception {
         em.close();
@@ -68,5 +68,4 @@ public class App extends Application {
         } catch (SQLException ex) {
         }
     }
-
 }

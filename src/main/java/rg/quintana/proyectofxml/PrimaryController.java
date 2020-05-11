@@ -1,18 +1,25 @@
 package rg.quintana.proyectofxml;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -33,6 +40,8 @@ public class PrimaryController implements Initializable {
     private TextField textFieldApellidos;
 
     private Jugadores jugadorSeleccionado;
+    @FXML
+    private AnchorPane rootJugadoresView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,7 +96,57 @@ public class PrimaryController implements Initializable {
             tableViewJugadores.requestFocus();
 
         }
-
     }
 
+    @FXML
+    private void onActionButtonNuevo(ActionEvent event) {
+        try {
+            // Cargar la vista de detalle
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
+            Parent rootDetalleView = fxmlLoader.load();
+            // Ocultar la vista de la lista
+            rootJugadoresView.setVisible(false);
+            
+            SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();  
+            secondaryController.setrootJugadoresView(rootJugadoresView);  
+            secondaryController.setTableViewPrevio(tableViewJugadores);
+            
+            jugadorSeleccionado = new Jugadores();
+            secondaryController.setJugador(entityManager, jugadorSeleccionado, true);
+            
+            // Añadir la vista de detalle al StackPane principal para que se muestre
+            StackPane rootMain = (StackPane) rootJugadoresView.getScene().getRoot();
+            rootMain.getChildren().add(rootDetalleView);
+        } catch (IOException ex) {
+            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    @FXML
+    private void onActionButtonEditar(ActionEvent event) {
+        try {
+            // Cargar la vista de detalle
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
+            Parent rootDetalleView = fxmlLoader.load();
+            // Ocultar la vista de la lista
+            rootJugadoresView.setVisible(false);
+            
+            
+            SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();  
+            secondaryController.setrootJugadoresView(rootJugadoresView);  
+            secondaryController.setTableViewPrevio(tableViewJugadores);
+            secondaryController.setJugador(entityManager, jugadorSeleccionado, false);
+
+            // Añadir la vista de detalle al StackPane principal para que se muestre
+            StackPane rootMain = (StackPane) rootJugadoresView.getScene().getRoot();
+            rootMain.getChildren().add(rootDetalleView);
+        } catch (IOException ex) {
+            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void onActionButtonSuprimir(ActionEvent event) {
+    }
 }
