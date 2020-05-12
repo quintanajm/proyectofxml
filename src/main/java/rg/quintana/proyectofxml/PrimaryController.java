@@ -3,6 +3,7 @@ package rg.quintana.proyectofxml;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -100,27 +104,29 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void onActionButtonNuevo(ActionEvent event) {
+
         try {
             // Cargar la vista de detalle
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
             Parent rootDetalleView = fxmlLoader.load();
             // Ocultar la vista de la lista
             rootJugadoresView.setVisible(false);
-            
-            SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();  
-            secondaryController.setrootJugadoresView(rootJugadoresView);  
+
+            SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
+            secondaryController.setrootJugadoresView(rootJugadoresView);
             secondaryController.setTableViewPrevio(tableViewJugadores);
-            
+
             jugadorSeleccionado = new Jugadores();
             secondaryController.setJugador(entityManager, jugadorSeleccionado, true);
-            
+            secondaryController.mostrarDatos();
+
             // Añadir la vista de detalle al StackPane principal para que se muestre
             StackPane rootMain = (StackPane) rootJugadoresView.getScene().getRoot();
             rootMain.getChildren().add(rootDetalleView);
         } catch (IOException ex) {
             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @FXML
@@ -131,12 +137,12 @@ public class PrimaryController implements Initializable {
             Parent rootDetalleView = fxmlLoader.load();
             // Ocultar la vista de la lista
             rootJugadoresView.setVisible(false);
-            
-            
-            SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();  
-            secondaryController.setrootJugadoresView(rootJugadoresView);  
+
+            SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
+            secondaryController.setrootJugadoresView(rootJugadoresView);
             secondaryController.setTableViewPrevio(tableViewJugadores);
             secondaryController.setJugador(entityManager, jugadorSeleccionado, false);
+            secondaryController.mostrarDatos();
 
             // Añadir la vista de detalle al StackPane principal para que se muestre
             StackPane rootMain = (StackPane) rootJugadoresView.getScene().getRoot();
@@ -148,5 +154,30 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void onActionButtonSuprimir(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar");
+        alert.setHeaderText("¿Desea suprimir el siguiente registro?");
+        alert.setContentText(jugadorSeleccionado.getNombre() + " "
+                + jugadorSeleccionado.getApellidos());
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            entityManager.getTransaction().begin();
+            jugadorSeleccionado = entityManager.merge(jugadorSeleccionado);
+            entityManager.remove(jugadorSeleccionado);
+            entityManager.getTransaction().commit();
+
+            tableViewJugadores.getItems().remove(jugadorSeleccionado);
+
+            tableViewJugadores.getFocusModel().focus(null);
+            tableViewJugadores.requestFocus();
+
+        } else {
+            int numFilaSeleccionada = tableViewJugadores.getSelectionModel().getSelectedIndex();
+            tableViewJugadores.getItems().set(numFilaSeleccionada, jugadorSeleccionado);
+            TablePosition pos = new TablePosition(tableViewJugadores, numFilaSeleccionada, null);
+            tableViewJugadores.getFocusModel().focus(pos);
+            tableViewJugadores.requestFocus();
+        }
     }
 }

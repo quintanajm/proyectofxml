@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -69,7 +70,34 @@ public class SecondaryController implements Initializable {
         rootMain.getChildren().remove(rootJugadorDetalleView);
 
         rootJugadoresView.setVisible(true);
-        
+
+        jugador.setNombre(textFieldNombre.getText());
+        jugador.setApellidos(textFieldApellidos.getText());
+        jugador.setNacionalidad(textFieldNacionalidad.getText());
+
+        entityManager.getTransaction().begin();
+
+        if (nuevoJugador) {
+            entityManager.persist(jugador);
+        } else {
+            entityManager.merge(jugador);
+        }
+        entityManager.getTransaction().commit();
+
+        int numFilaSeleccionada;
+        if (nuevoJugador) {
+            tableViewPrevio.getItems().add(jugador);
+            numFilaSeleccionada = tableViewPrevio.getItems().size() - 1;
+            tableViewPrevio.getSelectionModel().select(numFilaSeleccionada);
+            tableViewPrevio.scrollTo(numFilaSeleccionada);
+        } else {
+            numFilaSeleccionada = tableViewPrevio.getSelectionModel().getSelectedIndex();
+            tableViewPrevio.getItems().set(numFilaSeleccionada, jugador);
+        }
+        TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada, null);
+        tableViewPrevio.getFocusModel().focus(pos);
+        tableViewPrevio.requestFocus();
+
     }
 
     @FXML
@@ -78,6 +106,12 @@ public class SecondaryController implements Initializable {
         rootMain.getChildren().remove(rootJugadorDetalleView);
 
         rootJugadoresView.setVisible(true);
+
+        int numFilaSeleccionada = tableViewPrevio.getSelectionModel().getSelectedIndex();
+        TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada, null);
+        tableViewPrevio.getFocusModel().focus(pos);
+        tableViewPrevio.requestFocus();
+
     }
 
     public void setrootJugadoresView(Pane rootJugadoresView) {
@@ -87,16 +121,27 @@ public class SecondaryController implements Initializable {
     public void setTableViewPrevio(TableView tableViewPrevio) {
         this.tableViewPrevio = tableViewPrevio;
     }
-    
+
     public void setJugador(EntityManager entityManager, Jugadores jugador, boolean nuevoJugador) {
-    this.entityManager = entityManager;
+        this.entityManager = entityManager;
 //    entityManager.getTransaction().begin();
-    if(!nuevoJugador) {
-        this.jugador = entityManager.find(Jugadores.class, jugador.getId());
-    } else {
-        this.jugador = jugador;
+        if (!nuevoJugador) {
+            this.jugador = entityManager.find(Jugadores.class, jugador.getId());
+        } else {
+            this.jugador = jugador;
+        }
+        this.nuevoJugador = nuevoJugador;
     }
-    this.nuevoJugador = nuevoJugador;
-}
+
+    public void mostrarDatos() {
+        textFieldNombre.setText(jugador.getNombre());
+        textFieldApellidos.setText(jugador.getApellidos());
+        textFieldNacionalidad.setText(jugador.getNacionalidad());
+
+        if (jugador.getValor() != null) {
+            textFieldValor.setText(jugador.getValor().toString());
+        }
+
+    }
 
 }
