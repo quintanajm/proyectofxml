@@ -64,7 +64,7 @@
                         <Insets />
                      </HBox.margin>
                   </ImageView>
-                  <Button maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Examinar...">
+                  <Button maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onActionButtonExaminar" prefWidth="100.0" text="Examinar...">
                      <HBox.margin>
                         <Insets top="40.0" />
                      </HBox.margin></Button>
@@ -85,6 +85,11 @@
                   <Insets />
                </opaqueInsets>
             </ComboBox>
+            <Button mnemonicParsing="false" onAction="#onActionSuprimirFoto" text="Suprimir imagen" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Button>
          </children>
       </GridPane>
    </children>
