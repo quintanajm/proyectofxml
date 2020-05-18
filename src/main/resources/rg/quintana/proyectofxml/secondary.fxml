@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -50,8 +51,11 @@
                   <RadioButton fx:id="radioButtonDisponible" mnemonicParsing="false" text="Sí">
                      <opaqueInsets>
                         <Insets />
-                     </opaqueInsets></RadioButton>
-                  <RadioButton fx:id="radioButtonNoDisponible" mnemonicParsing="false" text="No">
+                     </opaqueInsets>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="disponible" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="radioButtonNoDisponible" mnemonicParsing="false" text="No" toggleGroup="$disponible">
                      <padding>
                         <Insets left="10.0" />
                      </padding></RadioButton>

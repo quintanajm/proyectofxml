@@ -127,6 +127,12 @@ public class SecondaryController implements Initializable {
         tableViewPrevio.getFocusModel().focus(pos);
         tableViewPrevio.requestFocus();
 
+        if (radioButtonDisponible.isSelected()) {
+            jugador.setDisponible(TRUE);
+        } else if (radioButtonNoDisponible.isSelected()) {
+            jugador.setDisponible(FALSE);
+        }
+
     }
 
     @FXML
@@ -170,8 +176,6 @@ public class SecondaryController implements Initializable {
         if (jugador.getValor() != null) {
             textFieldValor.setText(jugador.getValor().toString());
         }
-        
-        
 
         if (jugador.getFoto() != null) {
             String imageFileName = jugador.getFoto();
@@ -184,17 +188,6 @@ public class SecondaryController implements Initializable {
                 alert.showAndWait();
             }
         }
-
-        if (radioButtonDisponible.isSelected()) {
-            jugador.setDisponible(TRUE);
-        } else if (radioButtonNoDisponible.isSelected()) {
-            jugador.setDisponible(FALSE);
-        }
-
-//        if (jugador.getDisponible() != null) {
-//            radioButtonDisponible.setSelected(jugador.getDisponible());
-//        }
-
 
         Query queryProvinciaFindAll = entityManager.createNamedQuery("Club.findAll");
         List listClub = queryProvinciaFindAll.getResultList();
@@ -230,6 +223,11 @@ public class SecondaryController implements Initializable {
                 return null;
             }
         });
+
+        if (jugador.getDisponible() != null) {
+            radioButtonDisponible.setSelected(jugador.getDisponible());
+        }
+
 
     }
 
