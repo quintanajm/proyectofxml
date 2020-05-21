@@ -7,47 +7,61 @@ package rg.quintana.proyectofxml;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author josem
  */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "JUGADORES")
-@javax.persistence.NamedQueries({
-    @javax.persistence.NamedQuery(name = "Jugadores.findAll", query = "SELECT j FROM Jugadores j"),
-    @javax.persistence.NamedQuery(name = "Jugadores.findById", query = "SELECT j FROM Jugadores j WHERE j.id = :id"),
-    @javax.persistence.NamedQuery(name = "Jugadores.findByNombre", query = "SELECT j FROM Jugadores j WHERE j.nombre = :nombre"),
-    @javax.persistence.NamedQuery(name = "Jugadores.findByApellidos", query = "SELECT j FROM Jugadores j WHERE j.apellidos = :apellidos"),
-    @javax.persistence.NamedQuery(name = "Jugadores.findByNacionalidad", query = "SELECT j FROM Jugadores j WHERE j.nacionalidad = :nacionalidad"),
-    @javax.persistence.NamedQuery(name = "Jugadores.findByValor", query = "SELECT j FROM Jugadores j WHERE j.valor = :valor"),
-    @javax.persistence.NamedQuery(name = "Jugadores.findByFoto", query = "SELECT j FROM Jugadores j WHERE j.foto = :foto"),
-    @javax.persistence.NamedQuery(name = "Jugadores.findByDisponible", query = "SELECT j FROM Jugadores j WHERE j.disponible = :disponible")})
+@Entity
+@Table(name = "JUGADORES")
+@NamedQueries({
+    @NamedQuery(name = "Jugadores.findAll", query = "SELECT j FROM Jugadores j"),
+    @NamedQuery(name = "Jugadores.findById", query = "SELECT j FROM Jugadores j WHERE j.id = :id"),
+    @NamedQuery(name = "Jugadores.findByNombre", query = "SELECT j FROM Jugadores j WHERE j.nombre = :nombre"),
+    @NamedQuery(name = "Jugadores.findByApellidos", query = "SELECT j FROM Jugadores j WHERE j.apellidos = :apellidos"),
+    @NamedQuery(name = "Jugadores.findByNacionalidad", query = "SELECT j FROM Jugadores j WHERE j.nacionalidad = :nacionalidad"),
+    @NamedQuery(name = "Jugadores.findByValor", query = "SELECT j FROM Jugadores j WHERE j.valor = :valor"),
+    @NamedQuery(name = "Jugadores.findByFoto", query = "SELECT j FROM Jugadores j WHERE j.foto = :foto"),
+    @NamedQuery(name = "Jugadores.findByDisponible", query = "SELECT j FROM Jugadores j WHERE j.disponible = :disponible"),
+    @NamedQuery(name = "Jugadores.findByDorsal", query = "SELECT j FROM Jugadores j WHERE j.dorsal = :dorsal")})
 public class Jugadores implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @javax.persistence.Id
-    @javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
-    @javax.persistence.Basic(optional = false)
-    @javax.persistence.Column(name = "ID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
     private Integer id;
-    @javax.persistence.Basic(optional = false)
-    @javax.persistence.Column(name = "NOMBRE")
+    @Basic(optional = false)
+    @Column(name = "NOMBRE")
     private String nombre;
-    @javax.persistence.Basic(optional = false)
-    @javax.persistence.Column(name = "APELLIDOS")
+    @Basic(optional = false)
+    @Column(name = "APELLIDOS")
     private String apellidos;
-    @javax.persistence.Column(name = "NACIONALIDAD")
+    @Column(name = "NACIONALIDAD")
     private String nacionalidad;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @javax.persistence.Column(name = "VALOR")
+    @Column(name = "VALOR")
     private BigDecimal valor;
-    @javax.persistence.Column(name = "FOTO")
+    @Column(name = "FOTO")
     private String foto;
-    @javax.persistence.Column(name = "DISPONIBLE")
+    @Column(name = "DISPONIBLE")
     private Boolean disponible;
-    @javax.persistence.JoinColumn(name = "CLUB", referencedColumnName = "ID")
-    @javax.persistence.ManyToOne(optional = false)
+    @Column(name = "DORSAL")
+    private Integer dorsal;
+    @JoinColumn(name = "CLUB", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
     private Club club;
 
     public Jugadores() {
@@ -117,6 +131,14 @@ public class Jugadores implements Serializable {
 
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
+    }
+
+    public Integer getDorsal() {
+        return dorsal;
+    }
+
+    public void setDorsal(Integer dorsal) {
+        this.dorsal = dorsal;
     }
 
     public Club getClub() {

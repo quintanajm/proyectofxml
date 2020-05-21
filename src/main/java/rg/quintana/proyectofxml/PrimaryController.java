@@ -141,7 +141,7 @@ public class PrimaryController implements Initializable {
             SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
             secondaryController.setrootJugadoresView(rootJugadoresView);
             secondaryController.setTableViewPrevio(tableViewJugadores);
-            secondaryController.setJugador(entityManager, jugadorSeleccionado, false);
+            secondaryController.setJugador(entityManager, jugadorSeleccionado,false);
             secondaryController.mostrarDatos();
 
             // Añadir la vista de detalle al StackPane principal para que se muestre

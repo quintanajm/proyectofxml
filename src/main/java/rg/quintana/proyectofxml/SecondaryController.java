@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -106,11 +107,42 @@ public class SecondaryController implements Initializable {
             boolean errorFormato = true;
         }
 
+        if (radioButtonDisponible.isSelected()) {
+            jugador.setDisponible(TRUE);
+        } else {
+            jugador.setDisponible(FALSE);
+        }
+
         if (nuevoJugador) {
+//            para meter un nuevo objeto
             entityManager.persist(jugador);
         } else {
+//            para actualizar el objeto
             entityManager.merge(jugador);
         }
+
+        if (!textFieldDorsal.getText().isEmpty()) {
+            try {
+                jugador.setDorsal(Integer.valueOf(textFieldDorsal.getText()));
+            } catch (NumberFormatException ex) {
+                boolean errorFormato = true;
+                Alert alert = new Alert(AlertType.INFORMATION, "Dorsal no válido");
+                alert.showAndWait();
+                textFieldDorsal.requestFocus();
+            }
+        }
+
+        if (!textFieldValor.getText().isEmpty()) {
+            try {
+                jugador.setValor(BigDecimal.valueOf(Double.valueOf(textFieldValor.getText()).doubleValue()));
+            } catch (NumberFormatException ex) {
+                boolean errorFormato = true;
+                Alert alert = new Alert(AlertType.INFORMATION, "Salario no válido");
+                alert.showAndWait();
+                textFieldValor.requestFocus();
+            }
+        }
+
         entityManager.getTransaction().commit();
 
         int numFilaSeleccionada;
@@ -126,12 +158,6 @@ public class SecondaryController implements Initializable {
         TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada, null);
         tableViewPrevio.getFocusModel().focus(pos);
         tableViewPrevio.requestFocus();
-
-        if (radioButtonDisponible.isSelected()) {
-            jugador.setDisponible(TRUE);
-        } else if (radioButtonNoDisponible.isSelected()) {
-            jugador.setDisponible(FALSE);
-        }
 
     }
 
@@ -177,6 +203,10 @@ public class SecondaryController implements Initializable {
             textFieldValor.setText(jugador.getValor().toString());
         }
 
+        if (jugador.getDorsal() != null) {
+            textFieldDorsal.setText(jugador.getDorsal().toString());
+        }
+
         if (jugador.getFoto() != null) {
             String imageFileName = jugador.getFoto();
             File file = new File(CARPETA_FOTOS + "/" + imageFileName);
@@ -186,6 +216,15 @@ public class SecondaryController implements Initializable {
             } else {
                 Alert alert = new Alert(AlertType.INFORMATION, "No se encuentra la imagen");
                 alert.showAndWait();
+            }
+        }
+
+        if (jugador.getDisponible() != null) {
+//            si esta disponible, que seleccione RadioButtonDisponible
+            if (jugador.getDisponible() == TRUE) {
+                radioButtonDisponible.setSelected(TRUE);
+            } else {
+                radioButtonNoDisponible.setSelected(TRUE);
             }
         }
 
@@ -223,12 +262,6 @@ public class SecondaryController implements Initializable {
                 return null;
             }
         });
-
-        if (jugador.getDisponible() != null) {
-            radioButtonDisponible.setSelected(jugador.getDisponible());
-        }
-
-
     }
 
     @FXML

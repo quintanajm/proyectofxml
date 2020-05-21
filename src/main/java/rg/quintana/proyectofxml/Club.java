@@ -8,33 +8,46 @@ package rg.quintana.proyectofxml;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author josem
  */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "CLUB")
-@javax.persistence.NamedQueries({
-    @javax.persistence.NamedQuery(name = "Club.findAll", query = "SELECT c FROM Club c"),
-    @javax.persistence.NamedQuery(name = "Club.findById", query = "SELECT c FROM Club c WHERE c.id = :id"),
-    @javax.persistence.NamedQuery(name = "Club.findByNombre", query = "SELECT c FROM Club c WHERE c.nombre = :nombre"),
-    @javax.persistence.NamedQuery(name = "Club.findByFecfundacion", query = "SELECT c FROM Club c WHERE c.fecfundacion = :fecfundacion")})
+@Entity
+@Table(name = "CLUB")
+@NamedQueries({
+    @NamedQuery(name = "Club.findAll", query = "SELECT c FROM Club c"),
+    @NamedQuery(name = "Club.findById", query = "SELECT c FROM Club c WHERE c.id = :id"),
+    @NamedQuery(name = "Club.findByNombre", query = "SELECT c FROM Club c WHERE c.nombre = :nombre"),
+    @NamedQuery(name = "Club.findByFecfundacion", query = "SELECT c FROM Club c WHERE c.fecfundacion = :fecfundacion")})
 public class Club implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @javax.persistence.Id
-    @javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
-    @javax.persistence.Basic(optional = false)
-    @javax.persistence.Column(name = "ID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
     private Integer id;
-    @javax.persistence.Basic(optional = false)
-    @javax.persistence.Column(name = "NOMBRE")
+    @Basic(optional = false)
+    @Column(name = "NOMBRE")
     private String nombre;
-    @javax.persistence.Column(name = "FECFUNDACION")
-    @javax.persistence.Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "FECFUNDACION")
+    @Temporal(TemporalType.DATE)
     private Date fecfundacion;
-    @javax.persistence.OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "club")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "club")
     private Collection<Jugadores> jugadoresCollection;
 
     public Club() {

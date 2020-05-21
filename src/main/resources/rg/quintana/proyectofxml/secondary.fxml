@@ -48,7 +48,7 @@
             <TextField fx:id="textFieldDorsal" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                <children>
-                  <RadioButton fx:id="radioButtonDisponible" mnemonicParsing="false" text="Sí">
+                  <RadioButton fx:id="radioButtonDisponible" mnemonicParsing="false" selected="true" text="Sí">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
