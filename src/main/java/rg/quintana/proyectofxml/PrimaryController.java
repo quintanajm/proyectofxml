@@ -153,8 +153,8 @@ public class PrimaryController implements Initializable {
             }
         } else {
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Error");
-            alert.setHeaderText("Ha ocurrido un error");
+            alert.setTitle("Advertencia");
+            alert.setHeaderText("¡Cuidado!");
             alert.setContentText("Tienes que seleccionar un registro para editarlo.");
 
             alert.showAndWait();
@@ -191,8 +191,8 @@ public class PrimaryController implements Initializable {
             }
         }else {
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Error");
-            alert.setHeaderText("Ha ocurrido un error");
+            alert.setTitle("Advertencia");
+            alert.setHeaderText("¡Cuidado!");
             alert.setContentText("Tienes que seleccionar un registro para suprimirlo.");
 
             alert.showAndWait();
