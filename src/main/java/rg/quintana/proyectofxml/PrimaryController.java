@@ -131,53 +131,72 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void onActionButtonEditar(ActionEvent event) {
-        try {
-            // Cargar la vista de detalle
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
-            Parent rootDetalleView = fxmlLoader.load();
-            // Ocultar la vista de la lista
-            rootJugadoresView.setVisible(false);
+        if (jugadorSeleccionado != null) {
+            try {
+                // Cargar la vista de detalle
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
+                Parent rootDetalleView = fxmlLoader.load();
+                // Ocultar la vista de la lista
+                rootJugadoresView.setVisible(false);
 
-            SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
-            secondaryController.setrootJugadoresView(rootJugadoresView);
-            secondaryController.setTableViewPrevio(tableViewJugadores);
-            secondaryController.setJugador(entityManager, jugadorSeleccionado,false);
-            secondaryController.mostrarDatos();
+                SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
+                secondaryController.setrootJugadoresView(rootJugadoresView);
+                secondaryController.setTableViewPrevio(tableViewJugadores);
+                secondaryController.setJugador(entityManager, jugadorSeleccionado, false);
+                secondaryController.mostrarDatos();
 
-            // Añadir la vista de detalle al StackPane principal para que se muestre
-            StackPane rootMain = (StackPane) rootJugadoresView.getScene().getRoot();
-            rootMain.getChildren().add(rootDetalleView);
-        } catch (IOException ex) {
-            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+                // Añadir la vista de detalle al StackPane principal para que se muestre
+                StackPane rootMain = (StackPane) rootJugadoresView.getScene().getRoot();
+                rootMain.getChildren().add(rootDetalleView);
+            } catch (IOException ex) {
+                Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Ha ocurrido un error");
+            alert.setContentText("Tienes que seleccionar un registro para editarlo.");
+
+            alert.showAndWait();
         }
     }
 
     @FXML
     private void onActionButtonSuprimir(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar");
-        alert.setHeaderText("¿Desea suprimir el siguiente registro?");
-        alert.setContentText(jugadorSeleccionado.getNombre() + " "
-                + jugadorSeleccionado.getApellidos());
-        
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            entityManager.getTransaction().begin();
-            jugadorSeleccionado = entityManager.merge(jugadorSeleccionado);
-            entityManager.remove(jugadorSeleccionado);
-            entityManager.getTransaction().commit();
+        if (jugadorSeleccionado != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmar");
+            alert.setHeaderText("¿Desea suprimir el siguiente registro?");
+            alert.setContentText(jugadorSeleccionado.getNombre() + " "
+                    + jugadorSeleccionado.getApellidos());
 
-            tableViewJugadores.getItems().remove(jugadorSeleccionado);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                entityManager.getTransaction().begin();
+                jugadorSeleccionado = entityManager.merge(jugadorSeleccionado);
+                entityManager.remove(jugadorSeleccionado);
+                entityManager.getTransaction().commit();
 
-            tableViewJugadores.getFocusModel().focus(null);
-            tableViewJugadores.requestFocus();
+                tableViewJugadores.getItems().remove(jugadorSeleccionado);
 
-        } else {
-            int numFilaSeleccionada = tableViewJugadores.getSelectionModel().getSelectedIndex();
-            tableViewJugadores.getItems().set(numFilaSeleccionada, jugadorSeleccionado);
-            TablePosition pos = new TablePosition(tableViewJugadores, numFilaSeleccionada, null);
-            tableViewJugadores.getFocusModel().focus(pos);
-            tableViewJugadores.requestFocus();
+                tableViewJugadores.getFocusModel().focus(null);
+                tableViewJugadores.requestFocus();
+
+            } else {
+                int numFilaSeleccionada = tableViewJugadores.getSelectionModel().getSelectedIndex();
+                tableViewJugadores.getItems().set(numFilaSeleccionada, jugadorSeleccionado);
+                TablePosition pos = new TablePosition(tableViewJugadores, numFilaSeleccionada, null);
+                tableViewJugadores.getFocusModel().focus(pos);
+                tableViewJugadores.requestFocus();
+            }
+        }else {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Ha ocurrido un error");
+            alert.setContentText("Tienes que seleccionar un registro para suprimirlo.");
+
+            alert.showAndWait();
         }
     }
 }
+    

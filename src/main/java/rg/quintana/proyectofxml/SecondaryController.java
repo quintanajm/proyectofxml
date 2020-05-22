@@ -185,7 +185,7 @@ public class SecondaryController implements Initializable {
 
     public void setJugador(EntityManager entityManager, Jugadores jugador, boolean nuevoJugador) {
         this.entityManager = entityManager;
-//    entityManager.getTransaction().begin();
+
         if (!nuevoJugador) {
             this.jugador = entityManager.find(Jugadores.class, jugador.getId());
         } else {

@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu May 21 12:03:23 CEST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0172-36af-fd42-000001470840 
+Fri May 22 12:44:36 CEST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0172-3bfc-1714-00000107f800 
 on database directory C:\Users\josem\OneDrive\Documentos\NetBeansProjects\proyectoFXML\BDAgendaJugadores with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30dae81 
 Loaded from file:/C:/Users/josem/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
@@ -12,5 +12,5 @@ os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Thu May 21 12:08:24 CEST 2020:
-Shutting down instance a816c00e-0172-36af-fd42-000001470840 on database directory C:\Users\josem\OneDrive\Documentos\NetBeansProjects\proyectoFXML\BDAgendaJugadores with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30dae81 
+Fri May 22 12:45:20 CEST 2020:
+Shutting down instance a816c00e-0172-3bfc-1714-00000107f800 on database directory C:\Users\josem\OneDrive\Documentos\NetBeansProjects\proyectoFXML\BDAgendaJugadores with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30dae81 
